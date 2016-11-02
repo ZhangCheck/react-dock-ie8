@@ -328,6 +328,12 @@ export default class Dock extends Component {
       this.setState({ isDimHidden: true });
     }
   }
+  
+  isIE = (ver)=>{
+    let b = document.createElement('b');
+    b.innerHTML = '<!--[if IE ' + ver + ']><i></i><![endif]-->';
+    return b.getElementsByTagName('i').length === 1;
+  }
 
   render() {
     const { children, zIndex, dimMode, position, isVisible } = this.props;
@@ -338,7 +344,7 @@ export default class Dock extends Component {
     const resizerStyles = Object.assign({}, ...getResizerStyles(position));
 
     return (
-      <div style={Object.assign({}, styles.wrapper, { zIndex })}>
+      <div style={Object.assign({}, styles.wrapper, { zIndex },{display:this.isIE(8)&&!isVisible?"none":""})}>
         {dimMode !== 'none' && !isDimHidden &&
           <div style={dimStyles} onClick={this.handleDimClick} />
         }
